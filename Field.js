@@ -4,12 +4,48 @@ const hole = 'O';
 const hat = '^';
 
 class Field {
-    constructor(field) {
-        this._field = field;
+    constructor() {
+        this._field = [];
+        this._starting_pos = [];
     }
 
     get field() {
         return this._field;
+    }
+
+    get starting_pos() {
+        return this._starting_pos;
+    }
+
+    createMap(x, y) {
+        // Build the random field
+        for (let i = 0; i < y; i++) {
+            this._field.push([]);
+            for (let j = 0; j < x; j++) {
+                let randomNum = Math.random();
+                if (randomNum < 0.2) {
+                    this._field[i].push(hole);
+                } else {
+                    this._field[i].push(fieldCharacter);
+                }
+            }
+        }
+
+        // Put the character in a random starting position
+        let randomX = Math.floor(Math.random() * this._field[0].length);
+        let randomY = Math.floor(Math.random() * this._field.length);
+        this._field[randomY][randomX] = pathCharacter;
+        this._starting_pos = [randomY, randomX];
+
+        // Put the hat in a random starting position, so that it's not the same square as the character
+        while (true) {
+            randomX = Math.floor(Math.random() * this._field[0].length);
+            randomY = Math.floor(Math.random() * this._field.length);
+            if (this._field[randomY][randomX] !== pathCharacter) {
+                this._field[randomY][randomX] = hat;
+                break;
+            }
+        }
     }
 
     print() {
