@@ -2,6 +2,8 @@ const prompt = require('prompt-sync')({sigint: true});
 const Field = require('./Field');
 const makeMove = require('./makeMove');
 const hatFound = require('./hatFound');
+const routeIsPossible = require('./routeIsPossible');
+
 const myField = new Field();
 // This will be the players current spot, in format [y-coord, x-coord]
 let currentSpot = [];
@@ -49,7 +51,9 @@ const startTheGame = () => {
                 }
             }
             myField.createMap(width, height);
-            currentSpot = myField.starting_pos;
+            // In javascript, arrays are passed by reference, so
+            // this creates a copy of the field-object's starting point using ES6 syntax.
+            currentSpot = [...myField.starting_pos];
             break;
         }
     }
@@ -61,12 +65,14 @@ startTheGame();
 while (true) {
     myField.print();
     console.log();
+    console.log(`Current pos: ${myField.starting_pos}`);
     console.log('Move keys: Up (w), Down (s), Left (a), Right (d), ')
     const move = prompt('Which way you want to go (press "ctrl + c" to quit)? ');
     if (['w', 's', 'a', 'd'].includes(move)) {
         if (makeMove(move, currentSpot, myField.field)) {
             if (hatFound(currentSpot, myField.field)) {
                 console.log('\nWOW! You found your hat! Congratulations!\n');
+                console.log(routeIsPossible(myField.starting_pos, myField.field));
                 process.exit();
             }
             myField.markPath(currentSpot);
