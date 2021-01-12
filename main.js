@@ -1,10 +1,10 @@
 const prompt = require('prompt-sync')({sigint: true});
-const Field = require('./Field');
-const makeMove = require('./makeMove');
-const hatFound = require('./hatFound');
-const routeIsPossible = require('./routeIsPossible');
-const drawOptimalRoute = require('./drawOptimalRoute');
-const createRandomMap = require('./createRandomMap');
+const Field = require('./scripts/Field');
+const makeMove = require('./scripts/makeMove');
+const hatFound = require('./scripts/hatFound');
+const routeIsPossible = require('./scripts/routeIsPossible');
+const drawOptimalRoute = require('./scripts/drawOptimalRoute');
+const createRandomMap = require('./scripts/createRandomMap');
 const myField = new Field();
 let stepsTaken = 0;
 let currentSpot = []; // This will be the players current spot, in format [y-coord, x-coord]

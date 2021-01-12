@@ -1,4 +1,4 @@
-const routeIsPossible = require('./routeIsPossible');
+const routeIsPossible = require('../scripts/routeIsPossible');
 
 const fieldCharacter = '░';
 const pathCharacter = '*';
