@@ -3,6 +3,7 @@ const Field = require('./Field');
 const makeMove = require('./makeMove');
 const hatFound = require('./hatFound');
 const routeIsPossible = require('./routeIsPossible');
+const drawOptimalRoute = require('./drawOptimalRoute');
 
 const myField = new Field();
 // This will be the players current spot, in format [y-coord, x-coord]
@@ -11,11 +12,9 @@ let currentSpot = [];
 // Function to start the game and determine the map dimensions
 const startTheGame = () => {
     console.clear(); // Clears the console, to notify the user that the game has started
-    console.log()
-    console.log('********* Welcome! ********** \nYou\'re playing the famous game Find Your Hat!\n');
+    console.log('\n********* Welcome! ********** \nYou\'re playing the famous game Find Your Hat!\n');
     console.log('Your job is to find your hat in this maze-like field.')
-    console.log('Your starting position and the tiles you have visited are marked with "*" and your hat with "^"');
-    console.log()
+    console.log('Your starting position and the tiles you have visited are marked with \'*\' and your hat with \'^\'\n');
     while (true) {
         let answer = prompt('You want to play the game or not (y/n)? ');
         if (answer === 'n') {
@@ -63,26 +62,26 @@ const startTheGame = () => {
 // Intro and the beginning of the game!
 startTheGame();
 while (true) {
+    console.log('\n');
     myField.print();
-    console.log();
-    console.log(`Current pos: ${myField.starting_pos}`);
-    console.log('Move keys: Up (w), Down (s), Left (a), Right (d), ')
+    console.log('\nMove keys: Up (w), Down (s), Left (a), Right (d), ')
     const move = prompt('Which way you want to go (press "ctrl + c" to quit)? ');
     if (['w', 's', 'a', 'd'].includes(move)) {
         if (makeMove(move, currentSpot, myField.field)) {
             if (hatFound(currentSpot, myField.field)) {
                 console.log('\nWOW! You found your hat! Congratulations!\n');
-                console.log(routeIsPossible(myField.starting_pos, myField.field));
+                console.log('This was the optimal route:\n');
+                drawOptimalRoute(routeIsPossible(myField.starting_pos, myField.originalField), myField.originalField);
                 process.exit();
             }
             myField.markPath(currentSpot);
             console.clear();
         } else {
-            console.log();
-            console.log('Game Over!');
+            console.log('\nGame Over!');
             process.exit();
         }
     } else {
-        console.log('Invalid input! Please try again. \n');
+        console.clear();
+        console.log('Invalid input! Please try again.');
     }
 }

@@ -8,7 +8,7 @@ const possible = (startPos, field) => {
     let distances = {};
     let queue = [startPos];
     let moves = [[1, 0], [0, 1], [-1, 0], [0, -1]];
-    distances[startPos] = 0;
+    distances[startPos] = [];
     let i = 0;
     while (i < queue.length) {
         let myPos = queue[i];
@@ -24,7 +24,7 @@ const possible = (startPos, field) => {
                 continue;
             }
             if (!distances[newPos]) {
-                distances[newPos] = distances[myPos] + 1;
+                distances[newPos] = distances[myPos].concat([newPos]);
                 queue.push(newPos);
             }
         }

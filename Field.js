@@ -1,3 +1,5 @@
+const routeIsPossible = require('./routeIsPossible');
+
 const fieldCharacter = '░';
 const pathCharacter = '*';
 const hole = 'O';
@@ -5,6 +7,7 @@ const hat = '^';
 
 class Field {
     constructor() {
+        this._originalField = [];
         this._field = [];
         this._starting_pos = [];
     }
@@ -17,13 +20,17 @@ class Field {
         return this._starting_pos;
     }
 
+    get originalField() {
+        return this._originalField;
+    }
+
     createMap(x, y) {
         // Build the random field
         for (let i = 0; i < y; i++) {
             this._field.push([]);
             for (let j = 0; j < x; j++) {
                 let randomNum = Math.random();
-                if (randomNum < 0.2) {
+                if (randomNum < 0.25) {
                     this._field[i].push(hole);
                 } else {
                     this._field[i].push(fieldCharacter);
@@ -44,6 +51,21 @@ class Field {
             if (this._field[randomY][randomX] !== pathCharacter) {
                 this._field[randomY][randomX] = hat;
                 break;
+            }
+        }
+
+        if (routeIsPossible(this._starting_pos, this._field) === -1) {
+            this._field = [];
+            this._originalField = [];
+            this._starting_pos = [];
+            this.createMap(x, y);
+        } else {
+            // Creates a deep copy of a field for later use
+            for (let i = 0; i < this._field.length; i++) {
+                this._originalField.push([]);
+                for (let j = 0; j < this._field[0].length; j++) {
+                    this._originalField[i].push(this._field[i][j]);
+                }
             }
         }
     }
