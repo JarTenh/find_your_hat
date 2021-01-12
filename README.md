@@ -11,4 +11,9 @@ information, check out [node.js website](https://nodejs.org).
 Once you've installed node.js, you should also install `prompt-sync` by giving command
 `npm install prompt-sync` in your terminal.
 
+## Note
+
+I've added a bfs-algorithm to find one of the optimal routes. You can view this optimal
+route after the game!
+
 Have fun playing!

@@ -1,4 +1,4 @@
-// This module uses dfs-algorithm to determine if the given field
+// This module uses bfs-algorithm to determine if the given field
 // is possible to solve. If the field is possible to solve, the
 // function returns the shortest route to the hat.
 
