@@ -41,8 +41,8 @@ while (true) {
     console.log('\n');
     myField.print();
     console.log(`Steps taken so far: ${stepsTaken}`);
-    console.log('\nMove keys: Up (w), Down (s), Left (a), Right (d), ')
-    const move = prompt('Which way you want to go (press "ctrl + c" to quit)? ');
+    console.log('\nMove keys: Up (w), Down (s), Left (a), Right (d), quit(ctrl + c)')
+    const move = prompt('Which way you want to go (press letter and \'enter\')? ');
     if (['w', 's', 'a', 'd'].includes(move)) {
         if (makeMove(move, currentSpot, myField.field)) {
             stepsTaken++;
@@ -54,7 +54,7 @@ while (true) {
                 console.log(`Steps taken so far: ${stepsTaken}`);
                 console.log('\nWOW! You found your hat! Congratulations!\n');
                 while (true) {
-                    let showOptimal = prompt('Would you like to see the optimal route (y/n)? ');
+                    let showOptimal = prompt('Would you like to see one possible optimal route with fewest steps (y/n)? ');
                     if (showOptimal === 'n') {
                         console.log('Very well, thank you for playing!');
                         process.exit();
@@ -63,7 +63,7 @@ while (true) {
                     } else {
                         console.log('This was the optimal route:\n');
                         drawOptimalRoute(routeIsPossible(myField.starting_pos, myField.originalField), myField.originalField);
-                        prompt('Press any key and \'enter\' to exit. ');
+                        prompt('Press \'enter\' to exit. ');
                         process.exit();
                     }
                 }
