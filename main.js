@@ -4,10 +4,10 @@ const makeMove = require('./makeMove');
 const hatFound = require('./hatFound');
 const routeIsPossible = require('./routeIsPossible');
 const drawOptimalRoute = require('./drawOptimalRoute');
-
+const createRandomMap = require('./createRandomMap');
 const myField = new Field();
-// This will be the players current spot, in format [y-coord, x-coord]
-let currentSpot = [];
+let stepsTaken = 0;
+let currentSpot = []; // This will be the players current spot, in format [y-coord, x-coord]
 
 // Function to start the game and determine the map dimensions
 const startTheGame = () => {
@@ -24,32 +24,8 @@ const startTheGame = () => {
             console.log('Invalid input, please type \'y or \'n.');
         } else {
             console.log('\nLet\'s first determine the map dimensions!');
-            let width, height;
-            while (true) {
-                try {
-                    width = Number(prompt('How wide should the map be (min 3, max 50? '));
-                    if (!width || width < 3 || width > 50) {
-                        console.log('\nPlease provide a valid input!\n');
-                    } else {
-                        break;
-                    }
-                } catch(e) {
-                    console.log('\nPlease provide a valid input!\n');
-                }
-            }
-            while (true) {
-                try {
-                    height = Number(prompt('How tall should the map be (min 3, max 20? '));
-                    if (!height || height < 3 || height > 20) {
-                        console.log('\nPlease provide a valid input!\n');
-                    } else {
-                        break;
-                    }
-                } catch(e) {
-                    console.log('\nPlease provide a valid input!\n');
-                }
-            }
-            myField.createMap(width, height);
+            let dimensions = createRandomMap();
+            myField.createMap(dimensions[0], dimensions[1]);
             // In javascript, arrays are passed by reference, so
             // this creates a copy of the field-object's starting point using ES6 syntax.
             currentSpot = [...myField.starting_pos];
@@ -64,15 +40,32 @@ startTheGame();
 while (true) {
     console.log('\n');
     myField.print();
+    console.log(`Steps taken so far: ${stepsTaken}`);
     console.log('\nMove keys: Up (w), Down (s), Left (a), Right (d), ')
     const move = prompt('Which way you want to go (press "ctrl + c" to quit)? ');
     if (['w', 's', 'a', 'd'].includes(move)) {
         if (makeMove(move, currentSpot, myField.field)) {
+            stepsTaken++;
             if (hatFound(currentSpot, myField.field)) {
+                myField.markPath(currentSpot);
+                console.clear();
+                console.log('\n');
+                myField.print();
+                console.log(`Steps taken so far: ${stepsTaken}`);
                 console.log('\nWOW! You found your hat! Congratulations!\n');
-                console.log('This was the optimal route:\n');
-                drawOptimalRoute(routeIsPossible(myField.starting_pos, myField.originalField), myField.originalField);
-                process.exit();
+                while (true) {
+                    let showOptimal = prompt('Would you like to see the optimal route (y/n)? ');
+                    if (showOptimal === 'n') {
+                        console.log('Very well, thank you for playing!');
+                        process.exit();
+                    } else if (showOptimal !== 'y') {
+                        console.log('Invalid input, please try again!\n');
+                    } else {
+                        console.log('This was the optimal route:\n');
+                        drawOptimalRoute(routeIsPossible(myField.starting_pos, myField.originalField), myField.originalField);
+                        process.exit();
+                    }
+                }
             }
             myField.markPath(currentSpot);
             console.clear();

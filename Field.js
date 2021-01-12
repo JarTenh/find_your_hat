@@ -60,7 +60,7 @@ class Field {
             this._starting_pos = [];
             this.createMap(x, y);
         } else {
-            // Creates a deep copy of a field for later use
+            // Creates a deep copy of a field for drawing the optimal route eventually
             for (let i = 0; i < this._field.length; i++) {
                 this._originalField.push([]);
                 for (let j = 0; j < this._field[0].length; j++) {
