@@ -63,6 +63,7 @@ while (true) {
                     } else {
                         console.log('This was the optimal route:\n');
                         drawOptimalRoute(routeIsPossible(myField.starting_pos, myField.originalField), myField.originalField);
+                        prompt('Press any key and \'enter\' to exit. ');
                         process.exit();
                     }
                 }
