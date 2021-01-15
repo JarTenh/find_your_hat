@@ -11,9 +11,14 @@ information, check out [node.js website](https://nodejs.org).
 Once you've installed node.js, you should also install `prompt-sync` by giving command
 `npm install prompt-sync` in your terminal.
 
-## Note
+## How To Play
+
+The game creates a random, always solvable map based on your dimension inputs at the
+beginning of the game.
+
+Use WASD + ENTER to move your character. Try to find your hat, but beware the big holes!
 
 I've added a bfs-algorithm to find one of the optimal routes. You can view this optimal
-route after the game!
+route after you've found your hat!
 
 Have fun playing!
